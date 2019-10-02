@@ -2,7 +2,7 @@ from nltk import Nonterminal
 from helpers.cfg import CFGHelper
 
 sample_grammar = '''
-S -> S O S | V | '(' S ')'
+S -> S O S | V | '(' S ')' | V O V
 V -> 'x' | 'y' | 'z' | 'w'
 O -> '+' | '-' | '*' | '/'
 '''
@@ -10,11 +10,11 @@ O -> '+' | '-' | '*' | '/'
 def test_string_to_indexes():
   cfg = CFGHelper(sample_grammar)
   token_array = 'x + ( y / w ) + x'.split(' ')
-  assert cfg.string_to_indexes(token_array) == [0, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1, 3, 1, 1, 3]
+  assert cfg.string_to_indexes(token_array) == [0, 0, 0, 1, 1, 0, 2, 0, 0, 3, 1, 3, 3]
 
 def test_indexes_to_tokens():
   cfg = CFGHelper(sample_grammar)
-  indexes = [0, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1, 3, 1, 1, 3]
+  indexes = [0, 0, 0, 1, 1, 0, 2, 0, 0, 3, 1, 3, 3]
   token_array = 'x + ( y / w ) + x'.split(' ')
   assert cfg.indexes_to_tokens(indexes) == token_array
 
