@@ -22,24 +22,30 @@ class CFGHelper:
     Takes a sequence of indexes [1,0,0] and returns 
     an array like ['x', '+', 'y'] using the grammar
     '''
-    result = []
-    queue = [Nonterminal('S')]
+    gen_slice = [self._grammar.start()]
     i = 0
-    while len(queue):
-        lhs = queue.pop(0)
-        # If all the indices have been consumed,
-        # return whatever result we have so far
-        if i == len(indexes):
-            return result
-        rhs = self._grammar._lhs_index[lhs][indexes[i]].rhs()
-        i += 1
-        for r in rhs:
-            if type(r) == str:
-                result.append(r)
-            else:
-                queue.append(r)
 
-    return result
+    while i < len(indexes):
+        new_slice = []
+        all_non_terminals_exhaused = True
+
+        for g in gen_slice:
+            if type(g) == str:
+                new_slice.append(g)
+                continue
+            
+            all_non_terminals_exhaused = False
+
+            rhs = self._grammar.productions(lhs=g)[indexes[i]].rhs()
+            i += 1
+            new_slice.extend(list(rhs))
+            
+        gen_slice = new_slice
+
+        if all_non_terminals_exhaused:
+            break
+
+    return gen_slice
 
   def _generate_production(self, t):
     arr = []
