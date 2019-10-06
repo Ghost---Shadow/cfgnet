@@ -1,3 +1,4 @@
 nltk
 pytest
 pytest-cov
+tensorflow-gpu==2.0

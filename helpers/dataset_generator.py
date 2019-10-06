@@ -3,7 +3,7 @@ import nltk
 import numpy as np
 import random
 
-from cfg import CFGHelper
+from helpers.cfg import CFGHelper
 
 sample_grammar = '''
 S -> '(' S ')' | S O S | V | '(' S ')'
@@ -59,5 +59,5 @@ def demo():
   import winsound
   winsound.Beep(440, 1000)
 
-demo()
+##demo()
 
